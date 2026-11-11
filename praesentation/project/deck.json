@@ -1,0 +1,20 @@
+{
+  "v": 4,
+  "createdOnFiles": {"v": 1, "at": "2026-11-11T07:35:00Z"},
+  "lists": "css",
+  "title": "Strukturwandel in der US-Landwirtschaft – Ogallala & Great Plains",
+  "cover": "cover",
+  "order": ["cover", "leitfrage", "t1-open", "naturraum", "aquifer-zahlen", "aquifer-schnitt", "aquifer-karte", "t2-open", "raster", "pivot", "kette", "t3-open", "mais", "bewaesserung", "rinder", "produktivitaet", "vergleich", "kansas", "t4-open", "probleme", "loesungen", "lema", "fazit", "quellen"],
+  "sections": {
+    "s0": {"description": "Einstieg: Titel, Leitfrage und Aufteilung auf vier Vortragende.", "start": "cover"},
+    "s1": {"description": "Teil 1 – Naturraum der Great Plains und der Ogallala-Aquifer als Voraussetzung.", "start": "t1-open"},
+    "s2": {"description": "Teil 2 – Das heutige Bild der Agrarlandschaft: Raster, Kreisberegnung, Wertschöpfungskette.", "start": "t2-open"},
+    "s3": {"description": "Teil 3 – Agrarische Entwicklung in Finney und Haskell County 1954–2017.", "start": "t3-open"},
+    "s4": {"description": "Teil 4 – Übernutzung des Grundwassers, Lösungsansätze, Fazit und Quellen.", "start": "t4-open"}
+  },
+  "faces": {
+    "oswald": {"family": "Oswald", "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@300..700&family=Public+Sans:wght@400;600&display=swap"},
+    "public-sans": {"family": "Public Sans", "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@300..700&family=Public+Sans:wght@400;600&display=swap"}
+  },
+  "designSystems": []
+}
