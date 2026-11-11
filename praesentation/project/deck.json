@@ -13,8 +13,9 @@
     "s4": {"description": "Teil 4 – Übernutzung des Grundwassers, Lösungsansätze, Fazit und Quellen.", "start": "t4-open"}
   },
   "faces": {
-    "oswald": {"family": "Oswald", "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@300..700&family=Public+Sans:wght@400;600&display=swap"},
-    "public-sans": {"family": "Public Sans", "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@300..700&family=Public+Sans:wght@400;600&display=swap"}
+    "anton": {"family": "Anton", "href": "https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&display=swap"},
+    "instrument-serif": {"family": "Instrument Serif", "href": "https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&display=swap"},
+    "jetbrains-mono": {"family": "JetBrains Mono", "href": "https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&display=swap"}
   },
   "designSystems": []
 }
