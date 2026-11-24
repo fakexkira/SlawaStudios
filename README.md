@@ -11,3 +11,12 @@
   - NASA/GSFC/METI/ERSDAC/JAROS, U.S./Japan ASTER Science Team: Finney County, Kansas, 24.06.2001 (gemeinfrei)
   - U.S. Geological Survey, SIR 2017–5040: Wasserspiegeländerung im High-Plains-Aquifer (gemeinfrei)
   - Billy Hathorn: Feedlot bei Rocky Ford, Colorado (CC BY-SA 3.0, Wikimedia Commons)
+
+## Präsentation: Lachs aus dem Käfig (Intensivierung auch im Meer?)
+
+`praesentation-lachs/` enthält eine 15-Folien-Präsentation (16:9) zu Aquakultur und Lachszucht in Norwegen,
+ohne Bilder und ohne Quellenzeilen auf den Folien. Diagramme sind aus den Werten der Buchseite gezeichnet.
+
+- `Lachs-aus-dem-Kaefig.html` – eigenständige Datei, läuft offline (← → blättern, `N` Sprechernotizen, `F` Vollbild)
+- `Lachs-aus-dem-Kaefig.pdf` – PDF-Export
+- `src/deck.html`, `src/fonts/`, `build.py` – Quelle und Build (`python3 build.py`, braucht Node + Playwright für das PDF)

@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lachs aus dem Käfig – Intensivierung auch im Meer?</title>
+<style>
+/*FONTS*/
+:root{
+  --paper:#EEE8DC; --ink:#12110F; --salmon:#F0654A; --salmon-d:#D9492F;
+  --sea:#0E2B36; --teal:#2F7F94; --sand:#CFC5AE; --mute:#7A7367; --mist:#8FB8C2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;overflow:hidden}
+body{font-family:'Instrument Serif',Georgia,serif}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+.slide{position:absolute;inset:0;padding:140px 120px 90px;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s;overflow:hidden}
+.slide.active{opacity:1;visibility:visible}
+.paper{background:var(--paper);color:var(--ink)}
+.sea{background:var(--sea);color:var(--paper)}
+.salmon{background:var(--salmon);color:var(--ink)}
+
+/* Rahmen */
+.chrome{position:absolute;left:120px;right:120px;top:52px;display:flex;justify-content:space-between;font:400 22px/1 'JetBrains Mono',monospace;letter-spacing:2px;text-transform:uppercase;opacity:.62}
+.progress{position:absolute;left:0;bottom:0;height:8px;background:currentColor;opacity:.9}
+
+/* Typografie */
+.display{font-family:'Anton',Impact,sans-serif;font-weight:400;text-transform:uppercase;line-height:1.0}
+h2{font-family:'Anton',Impact,sans-serif;font-weight:400;text-transform:uppercase;line-height:1.02;font-size:112px}
+.lead{font-size:50px;line-height:1.16}
+.body{font-size:40px;line-height:1.2}
+.small{font-size:32px;line-height:1.22}
+.mono{font-family:'JetBrains Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;font-size:22px}
+i,em{font-style:italic}
+.acc{color:var(--salmon)}
+.paper .acc{color:var(--salmon-d)}
+.salmon .acc{color:var(--paper)}
+.dim{opacity:.62}
+hr{border:0;border-top:2px solid currentColor;opacity:.9}
+
+/* Aufbau-Animationen */
+.rise{opacity:0;transform:translateY(34px)}
+.active .rise{animation:rise .75s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0s)}
+@keyframes rise{to{opacity:1;transform:none}}
+.bar{width:0}
+.vbar{height:0}
+.active .bar{width:var(--w);transition:width 1.1s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.active .vbar{height:var(--h);transition:height 1.1s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.bar,.vbar{transition:none}
+
+.cols{display:grid;gap:80px}
+.row{display:grid;align-items:center;gap:28px}
+.track{position:relative;height:100%}
+
+/* Notizen-Overlay */
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;padding:22px 5vw 26px;background:rgba(18,17,15,.96);color:#EEE8DC;font:400 clamp(16px,1.5vw,24px)/1.45 'Instrument Serif',Georgia,serif;display:none;z-index:9}
+#notes.on{display:block}
+#notes b{font:700 .7em 'JetBrains Mono',monospace;letter-spacing:2px;text-transform:uppercase;color:#F0654A;display:block;margin-bottom:6px}
+aside{display:none}
+#hint{position:fixed;right:18px;top:14px;font:400 13px 'JetBrains Mono',monospace;color:#fff;opacity:0;transition:opacity .4s;z-index:8;letter-spacing:1px}
+body.show-hint #hint{opacity:.5}
+
+@media print{
+  @page{size:1920px 1080px;margin:0}
+  html,body{height:auto;overflow:visible;background:none}
+  #stage{position:static;transform:none!important;width:1920px;height:auto}
+  .slide{position:relative;width:1920px;height:1080px;opacity:1;visibility:visible;page-break-after:always;break-after:page}
+  .rise{opacity:1;transform:none;animation:none!important}
+  .bar{width:var(--w)} .vbar{height:var(--h)}
+  .progress,#notes,#hint{display:none}
+}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- 01 TITEL -->
+<section class="slide sea" data-label="Intensivierung auch im Meer?">
+  <h1 class="display rise" style="--d:.1s;position:absolute;left:112px;top:128px;font-size:480px;line-height:.92;color:var(--salmon)">Lachs</h1>
+  <p class="rise" style="--d:.45s;position:absolute;left:124px;top:590px;font-size:200px;font-style:italic;line-height:1">aus dem Käfig</p>
+  <hr style="position:absolute;left:120px;right:120px;top:860px;opacity:.5">
+  <p class="rise lead" style="--d:.8s;position:absolute;left:120px;top:900px;width:1500px">Kann Aquakultur die Welt ernähren – am Beispiel Norwegens?</p>
+  <aside>Einstieg: Wir klären, ob man dem Meer mit Fischzucht Druck nehmen kann. Dazu vier Schritte: Wie viel Fisch kommt heute schon aus Zuchtanlagen, wer produziert ihn, wie funktioniert Lachszucht am Beispiel Norwegens – und welche Probleme bringt sie mit.</aside>
+</section>
+
+<!-- 02 AUSGANGSFRAGE -->
+<section class="slide paper" data-label="Die Ausgangsfrage">
+  <p class="display rise acc" style="--d:.05s;position:absolute;left:108px;top:130px;font-size:430px;line-height:1">17&nbsp;%</p>
+  <div class="rise" style="--d:.5s;position:absolute;left:120px;top:640px;width:760px">
+    <p class="lead">der Menschen decken ihren Eiweißbedarf hauptsächlich über <i>Fisch</i>.</p>
+  </div>
+  <div class="rise" style="--d:.8s;position:absolute;left:1060px;top:190px;width:740px">
+    <p class="mono dim" style="margin-bottom:22px">Fisch weltweit</p>
+    <p class="display" style="font-size:96px;line-height:1.04">Wichtigster<br>Proteinlieferant</p>
+    <p class="lead" style="margin-top:26px">noch vor Geflügel und Schwein.</p>
+    <hr style="margin:70px 0 50px">
+    <p class="body"><i>Die Weltbevölkerung wächst, die Nachfrage steigt – doch die Meere sind bereits überfischt.</i></p>
+    <p class="display acc" style="font-size:72px;margin-top:36px;line-height:1.08">Warum also nicht einfach züchten?</p>
+  </div>
+  <aside>Fisch ist weltweit der wichtigste Proteinlieferant, vor Geflügel und Schweinefleisch. Rund 17 Prozent der Menschen decken ihren Eiweißbedarf hauptsächlich über Fisch. Gleichzeitig steigt die Nachfrage mit der Weltbevölkerung, und die Meere sind schon stark überfischt. Daraus ergibt sich die Leitfrage: Kann man Fische nicht einfach züchten – und damit die Meere schonen und die wachsende Weltbevölkerung ernähren?</aside>
+</section>
+
+<!-- 03 FANG VS ZUCHT -->
+<section class="slide paper" data-label="Fang oder Zucht?">
+  <h2 class="rise" style="--d:.05s;position:absolute;left:120px;top:130px;width:1500px;font-size:118px">Der Fang stagniert.<br><span class="acc">Die Zucht wächst.</span></h2>
+
+  <div style="position:absolute;left:120px;top:400px;width:1680px">
+    <div class="row" style="grid-template-columns:150px 1fr;height:110px">
+      <p class="display" style="font-size:72px">1997</p>
+      <div style="display:flex;height:110px;width:100%">
+        <div class="bar" style="--w:27%;--d:.5s;background:var(--salmon);display:flex;align-items:center;padding-left:22px;overflow:hidden;white-space:nowrap"><span class="display" style="font-size:58px">27&nbsp;%</span></div>
+        <div class="bar" style="--w:73%;--d:.5s;background:var(--ink);color:var(--paper);display:flex;align-items:center;padding-left:22px;overflow:hidden;white-space:nowrap"><span class="display" style="font-size:58px">73&nbsp;%</span></div>
+      </div>
+    </div>
+    <p class="small dim" style="margin:8px 0 0 178px">Gesamt 128,6 Mio. t</p>
+
+    <div class="row" style="grid-template-columns:150px 1fr;height:110px;margin-top:30px">
+      <p class="display" style="font-size:72px">2018</p>
+      <div style="display:flex;height:110px;width:100%">
+        <div class="bar" style="--w:36.4%;--d:.9s;background:var(--salmon);display:flex;align-items:center;padding-left:22px;overflow:hidden;white-space:nowrap"><span class="display" style="font-size:58px">46&nbsp;%</span></div>
+        <div class="bar" style="--w:43.6%;--d:.9s;background:var(--ink);color:var(--paper);display:flex;align-items:center;padding-left:22px;overflow:hidden;white-space:nowrap"><span class="display" style="font-size:58px">54&nbsp;%</span></div>
+      </div>
+    </div>
+    <p class="small dim" style="margin:8px 0 0 178px">Gesamt 178,5 Mio. t</p>
+    <div style="display:flex;gap:44px;margin:18px 0 0 178px" class="mono">
+      <span><span style="display:inline-block;width:20px;height:20px;background:var(--salmon);margin-right:10px;vertical-align:-3px"></span>Aquakultur</span>
+      <span><span style="display:inline-block;width:20px;height:20px;background:var(--ink);margin-right:10px;vertical-align:-3px"></span>Fischfang</span>
+    </div>
+  </div>
+
+  <div class="rise" style="--d:1.5s;position:absolute;left:120px;top:880px;width:1680px;display:flex;align-items:baseline;gap:36px">
+    <p class="display acc" style="font-size:100px;line-height:1">95&nbsp;%</p>
+    <p class="lead" style="width:1350px;font-size:42px">des Zuwachses seit 1997 stammen aus der Zucht: +47 von +50 Mio. t. Der Fang liegt weiter bei etwa 95 Mio. t.</p>
+  </div>
+  <aside>Die Kreise zeigen den Anteil der Aquakultur an der gesamten Fischerzeugung: 1997 waren es 27 Prozent von 128,6 Millionen Tonnen, 2018 schon 46 Prozent von 178,5 Millionen Tonnen. Rechnet man die Prozentwerte in Tonnen um, ist der Fang in dieser Zeit von etwa 94 auf etwa 96 Millionen Tonnen praktisch gleich geblieben. Der gesamte Zuwachs von rund 50 Millionen Tonnen kommt aus der Zucht – das sind rund 95 Prozent. Die Zahlen sind aus gerundeten Prozentwerten berechnet, also Näherungen.</aside>
+</section>
+
+<!-- 04 WER ZÜCHTET -->
+<section class="slide paper" data-label="Wer züchtet?">
+  <h2 class="rise" style="--d:.05s;position:absolute;left:120px;top:130px;width:620px;font-size:104px">China züchtet mehr als <span class="acc">der Rest der Welt zusammen</span></h2>
+  <p class="rise body dim" style="--d:.5s;position:absolute;left:120px;top:690px;width:560px">58,4&nbsp;% der weltweit 80,1 Mio. t Zuchtfisch, Krebse und Muscheln (2017). Die zehn größten Länder liefern 88,8&nbsp;%.</p>
+
+  <div style="position:absolute;left:800px;top:128px;width:1000px">
+    <p class="mono dim" style="margin-bottom:14px">Aquakultur 2017 in Mio. Tonnen</p>
+    <!-- Zeilen -->
+    <div class="row" style="grid-template-columns:230px 1fr 110px;height:76px"><p class="small">China</p><div class="track"><div class="bar" style="--w:100%;--d:.2s;height:44px;margin-top:16px;background:var(--salmon)"></div></div><p class="display" style="font-size:44px;text-align:right">46,8</p></div>
+    <div class="row" style="grid-template-columns:230px 1fr 110px;height:76px"><p class="small">Indien</p><div class="track"><div class="bar" style="--w:13.2%;--d:.3s;height:44px;margin-top:16px;background:var(--ink)"></div></div><p class="display" style="font-size:44px;text-align:right">6,2</p></div>
+    <div class="row" style="grid-template-columns:230px 1fr 110px;height:76px"><p class="small">Indonesien</p><div class="track"><div class="bar" style="--w:13.1%;--d:.35s;height:44px;margin-top:16px;background:var(--ink)"></div></div><p class="display" style="font-size:44px;text-align:right">6,2</p></div>
+    <div class="row" style="grid-template-columns:230px 1fr 110px;height:76px"><p class="small">Vietnam</p><div class="track"><div class="bar" style="--w:8.2%;--d:.4s;height:44px;margin-top:16px;background:var(--ink)"></div></div><p class="display" style="font-size:44px;text-align:right">3,8</p></div>
+    <div class="row" style="grid-template-columns:230px 1fr 110px;height:76px"><p class="small">Bangladesch</p><div class="track"><div class="bar" style="--w:5%;--d:.45s;height:44px;margin-top:16px;background:var(--ink)"></div></div><p class="display" style="font-size:44px;text-align:right">2,3</p></div>
+    <div class="row" style="grid-template-columns:230px 1fr 110px;height:76px"><p class="small">Ägypten</p><div class="track"><div class="bar" style="--w:3.1%;--d:.5s;height:44px;margin-top:16px;background:var(--ink)"></div></div><p class="display" style="font-size:44px;text-align:right">1,5</p></div>
+    <div class="row" style="grid-template-columns:230px 1fr 110px;height:76px"><p class="small"><b style="font-weight:400;border-bottom:3px solid var(--salmon-d)">Norwegen</b></p><div class="track"><div class="bar" style="--w:2.8%;--d:.55s;height:44px;margin-top:16px;background:var(--salmon)"></div></div><p class="display acc" style="font-size:44px;text-align:right">1,3</p></div>
+    <div class="row" style="grid-template-columns:230px 1fr 110px;height:76px"><p class="small">Chile</p><div class="track"><div class="bar" style="--w:2.6%;--d:.6s;height:44px;margin-top:16px;background:var(--ink)"></div></div><p class="display" style="font-size:44px;text-align:right">1,2</p></div>
+    <div class="row" style="grid-template-columns:230px 1fr 110px;height:76px"><p class="small">Myanmar</p><div class="track"><div class="bar" style="--w:2.2%;--d:.65s;height:44px;margin-top:16px;background:var(--ink)"></div></div><p class="display" style="font-size:44px;text-align:right">1,0</p></div>
+    <div class="row" style="grid-template-columns:230px 1fr 110px;height:76px"><p class="small">Thailand</p><div class="track"><div class="bar" style="--w:1.9%;--d:.7s;height:44px;margin-top:16px;background:var(--ink)"></div></div><p class="display" style="font-size:44px;text-align:right">0,9</p></div>
+  </div>
+  <aside>Die zehn führenden Aquakulturländer erzeugen fast 89 Prozent der weltweiten Menge von rund 80 Millionen Tonnen. China allein kommt auf 58 Prozent – mehr als alle anderen Länder zusammen. Auf den Plätzen zwei und drei liegen Indien und Indonesien mit je rund 6 Millionen Tonnen. Norwegen steht auf Platz sieben mit gut 1,3 Millionen Tonnen: ein kleiner Anteil von 1,6 Prozent, aber dazu gleich mehr.</aside>
+</section>
+
+<!-- 05 ART DER PRODUKTION -->
+<section class="slide paper" data-label="Art der Produktion">
+  <h2 class="rise" style="--d:.05s;position:absolute;left:120px;top:130px;width:1600px;font-size:112px">Gleiche Branche, <span class="acc">zwei Welten</span></h2>
+
+  <div style="position:absolute;left:120px;top:340px;width:1680px">
+    <div class="row" style="grid-template-columns:230px 1fr;height:92px"><p class="small">China</p>
+      <div style="display:flex;height:70px"><div class="bar" style="--w:54.3%;--d:.3s;background:var(--ink)"></div><div class="bar" style="--w:3%;--d:.3s;background:var(--teal)"></div><div class="bar" style="--w:9.7%;--d:.3s;background:var(--salmon)"></div><div class="bar" style="--w:31.2%;--d:.3s;background:var(--sand)"></div><div class="bar" style="--w:1.8%;--d:.3s;background:var(--mute)"></div></div></div>
+    <div class="row" style="grid-template-columns:230px 1fr;height:92px"><p class="small">Indien</p>
+      <div style="display:flex;height:70px"><div class="bar" style="--w:87.7%;--d:.4s;background:var(--ink)"></div><div class="bar" style="--w:1.6%;--d:.4s;background:var(--teal)"></div><div class="bar" style="--w:10.6%;--d:.4s;background:var(--salmon)"></div><div class="bar" style="--w:.2%;--d:.4s;background:var(--sand)"></div></div></div>
+    <div class="row" style="grid-template-columns:230px 1fr;height:92px"><p class="small">Vietnam</p>
+      <div style="display:flex;height:70px"><div class="bar" style="--w:66%;--d:.5s;background:var(--ink)"></div><div class="bar" style="--w:5.7%;--d:.5s;background:var(--teal)"></div><div class="bar" style="--w:20.7%;--d:.5s;background:var(--salmon)"></div><div class="bar" style="--w:7.5%;--d:.5s;background:var(--sand)"></div><div class="bar" style="--w:.2%;--d:.5s;background:var(--mute)"></div></div></div>
+    <div class="row" style="grid-template-columns:230px 1fr;height:92px"><p class="small"><b style="font-weight:400;border-bottom:3px solid var(--salmon-d)">Norwegen</b></p>
+      <div style="display:flex;height:70px"><div class="bar" style="--w:99.8%;--d:.6s;background:var(--teal)"></div><div class="bar" style="--w:.2%;--d:.6s;background:var(--sand)"></div></div></div>
+    <div class="row" style="grid-template-columns:230px 1fr;height:92px"><p class="small">Chile</p>
+      <div style="display:flex;height:70px"><div class="bar" style="--w:.3%;--d:.7s;background:var(--ink)"></div><div class="bar" style="--w:70.8%;--d:.7s;background:var(--teal)"></div><div class="bar" style="--w:28.9%;--d:.7s;background:var(--sand)"></div></div></div>
+
+    <div class="mono" style="display:flex;gap:44px;margin:30px 0 0 258px;flex-wrap:wrap">
+      <span><span style="display:inline-block;width:20px;height:20px;background:var(--ink);margin-right:10px;vertical-align:-3px"></span>Fisch, Binnenland</span>
+      <span><span style="display:inline-block;width:20px;height:20px;background:var(--teal);margin-right:10px;vertical-align:-3px"></span>Fisch, Küstengewässer</span>
+      <span><span style="display:inline-block;width:20px;height:20px;background:var(--salmon);margin-right:10px;vertical-align:-3px"></span>Krustentiere</span>
+      <span><span style="display:inline-block;width:20px;height:20px;background:var(--sand);margin-right:10px;vertical-align:-3px"></span>Schalentiere</span>
+    </div>
+  </div>
+
+  <div class="rise" style="--d:1.2s;position:absolute;left:120px;top:900px;width:1680px;display:flex;gap:80px">
+    <p class="lead" style="width:800px"><b style="font-weight:400" class="acc">Indien, China:</b> Süßwasserteiche, Karpfen &amp; Co.</p>
+    <p class="lead" style="width:800px"><b style="font-weight:400" class="acc">Norwegen:</b> fast nur Fisch im Salzwasser.</p>
+  </div>
+  <aside>Hier sieht man, wie unterschiedlich Aquakultur sein kann – Anteile an der jeweiligen Gesamtproduktion. China und Indien züchten überwiegend Fische in Binnengewässern, also in Teichen, wie es in Asien seit langem Tradition ist. China hat zusätzlich einen großen Anteil Schalentiere, also Muscheln und Schnecken. Norwegen dagegen produziert zu 99,8 Prozent in Küstengewässern, praktisch nur Fisch. Chile ist ähnlich, ergänzt um Muscheln. Das ist die moderne Intensivierung im Meer.</aside>
+</section>
+
+<!-- 06 NORWEGEN IM MASSSTAB -->
+<section class="slide salmon" data-label="Norwegen im Maßstab">
+  <div class="rise" style="--d:.1s;position:absolute;left:120px;top:130px;width:1680px;display:grid;grid-template-columns:900px 1fr;align-items:center;border-top:3px solid var(--ink);height:230px">
+    <p class="display" style="font-size:196px;line-height:1">Platz 7</p>
+    <p class="lead">unter den Aquakultur-Ländern der Welt: 1,31 Mio. Tonnen (2017)</p>
+  </div>
+  <div class="rise" style="--d:.5s;position:absolute;left:120px;top:370px;width:1680px;display:grid;grid-template-columns:900px 1fr;align-items:center;border-top:3px solid var(--ink);height:230px">
+    <p class="display" style="font-size:196px;line-height:1">1,6&nbsp;%</p>
+    <p class="lead">der Weltproduktion – ein kleiner Anteil …</p>
+  </div>
+  <div class="rise" style="--d:.9s;position:absolute;left:120px;top:610px;width:1680px;display:grid;grid-template-columns:900px 1fr;align-items:center;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);height:230px">
+    <p class="display" style="font-size:196px;line-height:1;color:var(--paper)">99,8&nbsp;%</p>
+    <p class="lead">… der fast komplett im Meer entsteht: Zuchtfisch in Küstengewässern.</p>
+  </div>
+  <p class="rise body" style="--d:1.4s;position:absolute;left:120px;top:900px;width:1680px"><i>Norwegen ist keine Großmacht der Menge, sondern der Meeres-Intensivierung – vor allem beim Lachs.</i></p>
+  <aside>Norwegen ist mit 1,3 Millionen Tonnen die Nummer sieben und hat nur 1,6 Prozent Anteil an der Weltproduktion. Das Besondere: Fast alles, 99,8 Prozent, kommt aus Fischzucht in Küstengewässern. Norwegen steht also für den Schritt von der Teichwirtschaft zur Intensivierung im Meer, vor allem beim Lachs.</aside>
+</section>
+
+<!-- 07 BOOM -->
+<section class="slide paper" data-label="Norwegen 2001 – 2019">
+  <h2 class="rise" style="--d:.05s;position:absolute;left:120px;top:130px;width:760px;font-size:112px">Aus dem <span class="acc">Luxusfisch</span> wurde Massenware</h2>
+  <p class="rise body" style="--d:.6s;position:absolute;left:120px;top:640px;width:700px"><i>„Die rasante Ausbreitung der Netzkäfige hat den einstigen Luxusfisch demokratisiert.“</i></p>
+  <p class="rise small dim" style="--d:.9s;position:absolute;left:120px;top:900px;width:700px">Preis je Kilo grob: 2001 etwa 22, 2019 etwa 54 NOK.</p>
+
+  <!-- Menge -->
+  <p class="mono dim" style="position:absolute;left:960px;top:140px">Verkaufsmenge, Mio. t</p>
+  <div style="position:absolute;left:960px;top:190px;width:380px;height:600px">
+    <div style="position:absolute;left:0;bottom:60px;width:150px"><div class="vbar" style="--h:132px;--d:.4s;background:var(--ink);width:150px;position:absolute;bottom:0"></div></div>
+    <div style="position:absolute;left:210px;bottom:60px;width:150px"><div class="vbar" style="--h:380px;--d:.7s;background:var(--salmon);width:150px;position:absolute;bottom:0"></div></div>
+    <p class="display" style="position:absolute;left:0;bottom:-6px;font-size:44px">2001</p>
+    <p class="display" style="position:absolute;left:210px;bottom:-6px;font-size:44px">2019</p>
+    <p class="display" style="position:absolute;left:0;bottom:200px;font-size:44px">0,45</p>
+    <p class="display acc" style="position:absolute;left:210px;bottom:448px;font-size:44px">1,3</p>
+  </div>
+  <p class="rise display acc" style="--d:1.2s;position:absolute;left:960px;top:810px;font-size:120px;line-height:1">×3</p>
+
+  <!-- Erlös -->
+  <p class="mono dim" style="position:absolute;left:1440px;top:140px">Erlös, Mrd. NOK</p>
+  <div style="position:absolute;left:1440px;top:190px;width:380px;height:600px">
+    <div style="position:absolute;left:0;bottom:60px;width:150px"><div class="vbar" style="--h:54px;--d:.4s;background:var(--ink);width:150px;position:absolute;bottom:0"></div></div>
+    <div style="position:absolute;left:210px;bottom:60px;width:150px"><div class="vbar" style="--h:380px;--d:.7s;background:var(--salmon);width:150px;position:absolute;bottom:0"></div></div>
+    <p class="display" style="position:absolute;left:0;bottom:-6px;font-size:44px">2001</p>
+    <p class="display" style="position:absolute;left:210px;bottom:-6px;font-size:44px">2019</p>
+    <p class="display" style="position:absolute;left:0;bottom:122px;font-size:44px">10</p>
+    <p class="display acc" style="position:absolute;left:210px;bottom:448px;font-size:44px">70</p>
+  </div>
+  <p class="rise display acc" style="--d:1.4s;position:absolute;left:1440px;top:810px;font-size:120px;line-height:1">×7</p>
+  <p class="rise small dim" style="--d:1.6s;position:absolute;left:960px;top:965px;width:840px;text-align:left">70 Mrd. NOK sind etwa 6,4 Mrd. € (1 € = 11 NOK)</p>
+  <aside>Zwischen 2001 und 2019 hat sich die verkaufte Lachsmenge in Norwegen etwa verdreifacht, von rund 0,45 auf rund 1,3 Millionen Tonnen. Der Erlös ist noch stärker gestiegen, etwa auf das Siebenfache: von rund 10 auf rund 70 Milliarden Norwegische Kronen, das sind etwa 6,4 Milliarden Euro. Die Werte sind aus dem Diagramm im Buch abgelesen, also gerundet. Der einstige Luxusfisch ist durch die Netzkäfige zur Massenware geworden.</aside>
+</section>
+
+<!-- 08 ABSATZ -->
+<section class="slide paper" data-label="Wohin geht der Lachs?">
+  <h2 class="rise" style="--d:.05s;position:absolute;left:120px;top:130px;width:660px;font-size:100px">Fast drei Viertel bleiben <span class="acc">in Europa</span></h2>
+  <p class="rise body dim" style="--d:.6s;position:absolute;left:120px;top:660px;width:600px">74&nbsp;% gehen in EU-Staaten und nach Großbritannien, USA und Japan zusammen erreichen nur 8&nbsp;%.</p>
+
+  <div style="position:absolute;left:830px;top:130px;width:970px">
+    <p class="mono dim" style="margin-bottom:14px">Hauptexportländer 2019, Anteil in %</p>
+    <div class="row" style="grid-template-columns:290px 1fr 100px;height:80px"><p class="small">Restliche EU</p><div class="track"><div class="bar" style="--w:100%;--d:.2s;height:46px;margin-top:17px;background:var(--ink)"></div></div><p class="display" style="font-size:46px;text-align:right">30</p></div>
+    <div class="row" style="grid-template-columns:290px 1fr 100px;height:80px"><p class="small">Sonstige</p><div class="track"><div class="bar" style="--w:60%;--d:.3s;height:46px;margin-top:17px;background:var(--mute)"></div></div><p class="display" style="font-size:46px;text-align:right">18</p></div>
+    <div class="row" style="grid-template-columns:290px 1fr 100px;height:80px"><p class="small">Polen</p><div class="track"><div class="bar" style="--w:46.7%;--d:.4s;height:46px;margin-top:17px;background:var(--ink)"></div></div><p class="display" style="font-size:46px;text-align:right">14</p></div>
+    <div class="row" style="grid-template-columns:290px 1fr 100px;height:80px"><p class="small">Frankreich</p><div class="track"><div class="bar" style="--w:30%;--d:.5s;height:46px;margin-top:17px;background:var(--ink)"></div></div><p class="display" style="font-size:46px;text-align:right">9</p></div>
+    <div class="row" style="grid-template-columns:290px 1fr 100px;height:80px"><p class="small">Dänemark</p><div class="track"><div class="bar" style="--w:30%;--d:.55s;height:46px;margin-top:17px;background:var(--ink)"></div></div><p class="display" style="font-size:46px;text-align:right">9</p></div>
+    <div class="row" style="grid-template-columns:290px 1fr 100px;height:80px"><p class="small">Großbritannien</p><div class="track"><div class="bar" style="--w:20%;--d:.6s;height:46px;margin-top:17px;background:var(--ink)"></div></div><p class="display" style="font-size:46px;text-align:right">6</p></div>
+    <div class="row" style="grid-template-columns:290px 1fr 100px;height:80px"><p class="small">Spanien</p><div class="track"><div class="bar" style="--w:20%;--d:.65s;height:46px;margin-top:17px;background:var(--ink)"></div></div><p class="display" style="font-size:46px;text-align:right">6</p></div>
+    <div class="row" style="grid-template-columns:290px 1fr 100px;height:80px"><p class="small">USA</p><div class="track"><div class="bar" style="--w:16.7%;--d:.7s;height:46px;margin-top:17px;background:var(--salmon)"></div></div><p class="display acc" style="font-size:46px;text-align:right">5</p></div>
+    <div class="row" style="grid-template-columns:290px 1fr 100px;height:80px"><p class="small">Japan</p><div class="track"><div class="bar" style="--w:10%;--d:.75s;height:46px;margin-top:17px;background:var(--salmon)"></div></div><p class="display acc" style="font-size:46px;text-align:right">3</p></div>
+  </div>
+  <aside>Der norwegische Lachs geht vor allem in die Nachbarschaft: Polen ist mit 14 Prozent das wichtigste Einzelland, dann Frankreich und Dänemark mit je 9, Großbritannien und Spanien mit je 6 Prozent. Die übrigen EU-Staaten zusammen machen 30 Prozent aus. Zählt man EU und Großbritannien zusammen, sind es 74 Prozent. Die USA mit 5 und Japan mit 3 Prozent spielen kaum eine Rolle. Die Lachszucht ist also stark auf den europäischen Markt ausgerichtet.</aside>
+</section>
+
+<!-- 09 STANDORTE -->
+<section class="slide sea" data-label="Standorte in Norwegen">
+  <h2 class="rise" style="--d:.05s;position:absolute;left:120px;top:130px;width:700px;font-size:104px">Zucht <span class="acc">dort, wo das Meer ist</span></h2>
+  <p class="rise body" style="--d:.6s;position:absolute;left:120px;top:630px;width:620px"><i>Im Süden und Osten Norwegens, rund um Oslo, gibt es kaum Anlagen. Die Schwerpunkte liegen an der West- und Nordküste.</i></p>
+
+  <div style="position:absolute;left:880px;top:130px;width:920px">
+    <p class="mono" style="margin-bottom:14px;opacity:.62">Zuchtanlagen 2019 (Lachs &amp; Regenbogenforelle)</p>
+    <div class="row" style="grid-template-columns:330px 1fr;height:112px"><p class="small">Nordland</p><div style="position:relative"><div class="bar" style="--w:100%;--d:.2s;height:68px;background:var(--salmon)"></div><span class="display" style="position:absolute;left:18px;top:10px;font-size:44px;color:var(--ink)">188</span></div></div>
+    <div class="row" style="grid-template-columns:330px 1fr;height:112px"><p class="small">Trøndelag</p><div style="position:relative"><div class="bar" style="--w:94.7%;--d:.3s;height:68px;background:var(--salmon)"></div><span class="display" style="position:absolute;left:18px;top:10px;font-size:44px;color:var(--ink)">178</span></div></div>
+    <div class="row" style="grid-template-columns:330px 1fr;height:112px"><p class="small">Hordaland</p><div style="position:relative"><div class="bar" style="--w:89.9%;--d:.4s;height:68px;background:var(--salmon)"></div><span class="display" style="position:absolute;left:18px;top:10px;font-size:44px;color:var(--ink)">169</span></div></div>
+    <div class="row" style="grid-template-columns:330px 1fr;height:112px"><p class="small">Møre og Romsdal</p><div style="position:relative"><div class="bar" style="--w:63.8%;--d:.5s;height:68px;background:var(--mist)"></div><span class="display" style="position:absolute;left:18px;top:10px;font-size:44px;color:var(--ink)">120</span></div></div>
+    <div class="row" style="grid-template-columns:330px 1fr;height:112px"><p class="small">Troms</p><div style="position:relative"><div class="bar" style="--w:47.3%;--d:.6s;height:68px;background:var(--mist)"></div><span class="display" style="position:absolute;left:18px;top:10px;font-size:44px;color:var(--ink)">89</span></div></div>
+    <div class="row" style="grid-template-columns:330px 1fr;height:112px"><p class="small">Sogn og Fjordane</p><div style="position:relative"><div class="bar" style="--w:43.1%;--d:.7s;height:68px;background:var(--mist)"></div><span class="display" style="position:absolute;left:18px;top:10px;font-size:44px;color:var(--ink)">81</span></div></div>
+    <div class="row" style="grid-template-columns:330px 1fr;height:112px"><p class="small">Rogaland</p><div style="position:relative"><div class="bar" style="--w:33%;--d:.8s;height:68px;background:var(--mist)"></div><span class="display" style="position:absolute;left:18px;top:10px;font-size:44px;color:var(--ink)">62</span></div></div>
+  </div>
+  <aside>Die Karte im Buch zeigt die Anzahl der Zuchtanlagen je Provinz. Spitzenreiter sind Nordland mit 188, Trøndelag mit 178 und Hordaland mit 169 Anlagen. Danach folgen Møre og Romsdal, Troms, Sogn og Fjordane und Rogaland. Auffällig: Die Anlagen liegen an der West- und Nordküste, in den Provinzen rund um Oslo und im Landesinneren gibt es keine Balken. Hier sind nur die sieben Provinzen mit klar lesbaren Werten abgebildet.</aside>
+</section>
+
+<!-- 10 LEBENSLAUF -->
+<section class="slide paper" data-label="So entsteht ein Zuchtlachs">
+  <h2 class="rise" style="--d:.05s;position:absolute;left:120px;top:130px;width:1680px;font-size:112px">Drei Stationen, <span class="acc">ein Fischleben</span></h2>
+
+  <!-- Klammern -->
+  <div class="rise" style="--d:.5s;position:absolute;left:120px;top:370px;width:1300px;border-top:6px solid var(--teal);padding-top:14px"><span class="mono">Süßwasser · 7 bis 9 Monate</span></div>
+  <div class="rise" style="--d:.5s;position:absolute;left:1440px;top:370px;width:360px;border-top:6px solid var(--ink);padding-top:14px"><span class="mono">Meerwasser</span></div>
+
+  <div class="cols" style="position:absolute;left:120px;top:450px;width:1680px;grid-template-columns:repeat(5,1fr);gap:0">
+    <div class="rise" style="--d:.7s;padding-right:30px">
+      <p class="mono dim">1 Brutanstalt</p>
+      <p class="display" style="font-size:96px;margin:14px 0 18px">Ei</p>
+      <p class="display acc" style="font-size:52px">40–100 Tage</p>
+      <p class="small" style="margin-top:14px">Geschlechtsprodukte der Elterntiere werden abgestreift, die Eier reifen (je nach Temperatur).</p>
+    </div>
+    <div class="rise" style="--d:.95s;padding-right:30px;border-left:2px solid rgba(18,17,15,.25);padding-left:30px">
+      <p class="mono dim">2 Besatzfischfarm</p>
+      <p class="display" style="font-size:96px;margin:14px 0 18px">Larve</p>
+      <p class="display acc" style="font-size:52px">ca. 44 Tage</p>
+      <p class="small" style="margin-top:14px">Aufzucht der Larven.</p>
+    </div>
+    <div class="rise" style="--d:1.2s;padding-right:30px;border-left:2px solid rgba(18,17,15,.25);padding-left:30px">
+      <p class="mono dim">2 Besatzfischfarm</p>
+      <p class="display" style="font-size:96px;margin:14px 0 18px">Parr</p>
+      <p class="display acc" style="font-size:52px">15 Wochen</p>
+      <p class="small" style="margin-top:14px">Junglachs, an Süßwasser angepasst.</p>
+    </div>
+    <div class="rise" style="--d:1.45s;padding-right:30px;border-left:2px solid rgba(18,17,15,.25);padding-left:30px">
+      <p class="mono dim">2 Besatzfischfarm</p>
+      <p class="display" style="font-size:96px;margin:14px 0 18px">Smolt</p>
+      <p class="display acc" style="font-size:52px">4 Wochen</p>
+      <p class="small" style="margin-top:14px">Umstellung auf das Leben im Salzwasser.</p>
+    </div>
+    <div class="rise" style="--d:1.7s;border-left:2px solid rgba(18,17,15,.25);padding-left:30px">
+      <p class="mono dim">3 Mastfarm</p>
+      <p class="display" style="font-size:96px;margin:14px 0 18px;line-height:.95">Speise&shy;fisch</p>
+      <p class="display acc" style="font-size:52px">im Netzgehege</p>
+      <p class="small" style="margin-top:14px">Bis zu 10 kg Futter pro Tag und Tonne Lachs.</p>
+    </div>
+  </div>
+  <p class="rise body" style="--d:2.1s;position:absolute;left:120px;top:930px;width:1680px"><i>Der Zyklus schließt sich: Aus Speisefischen werden wieder Elterntiere.</i></p>
+  <aside>Der Kreislauf aus dem Buch in Zeitschritten. Erstens die Brutanstalt: Den Elterntieren werden die Geschlechtsprodukte abgestreift, die Eier reifen 40 bis 100 Tage, je nach Temperatur. Zweitens die Besatzfischfarm: etwa 44 Tage Larven, dann 15 Wochen als Parr, an Süßwasser angepasste Junglachse, dann 4 Wochen als Smolt, wenn die Umstellung auf Salzwasser erfolgt. Zusammengerechnet sind das etwa 7 bis 9 Monate im Süßwasser. Drittens die Mastfarm im Meer: Die Lachse wachsen in Netzgehegen, pro Tonne Lachs werden bis zu 10 Kilogramm Futter am Tag gegeben, das ist rund ein Prozent des Körpergewichts. Die Zusammenrechnung der Wochen und Tage ist unsere eigene.</aside>
+</section>
+
+<!-- 11 WILD VS ZUCHT -->
+<section class="slide sea" data-label="Wildlachs und Zuchtlachs">
+  <h2 class="rise" style="--d:.05s;position:absolute;left:120px;top:130px;width:1680px;font-size:112px">Was die Farm <span class="acc">der Natur abnimmt</span></h2>
+
+  <div style="position:absolute;left:120px;top:370px;width:1680px;display:grid;grid-template-columns:330px 1fr 1fr;column-gap:50px">
+    <div></div>
+    <p class="display" style="font-size:64px;padding-bottom:16px;border-bottom:3px solid var(--mist)">Wildlachs</p>
+    <p class="display acc" style="font-size:64px;padding-bottom:16px;border-bottom:3px solid var(--salmon)">Zuchtlachs</p>
+
+    <p class="mono" style="opacity:.62;padding-top:34px">Süßwasserphase</p>
+    <p class="rise body" style="--d:.4s;padding-top:22px">Als Parr 1–2 Jahre im Fluss</p>
+    <p class="rise body" style="--d:.4s;padding-top:22px">Rund 7–9 Monate in Brutanstalt und Besatzfischfarm</p>
+
+    <p class="mono" style="opacity:.62;padding-top:44px">Wechsel ins Meer</p>
+    <p class="rise body" style="--d:.8s;padding-top:32px">Der Smolt wandert selbst ab, sobald er die artspezifische Größe hat</p>
+    <p class="rise body" style="--d:.8s;padding-top:32px">Der Smolt wird auf Salzwasser umgestellt und ins Netzgehege gesetzt</p>
+
+    <p class="mono" style="opacity:.62;padding-top:44px">Fortpflanzung</p>
+    <p class="rise body" style="--d:1.2s;padding-top:32px">Wanderung flussaufwärts zum Ablaichen</p>
+    <p class="rise body" style="--d:1.2s;padding-top:32px">Geschlechtsprodukte der Elterntiere werden abgestreift</p>
+
+    <p class="mono" style="opacity:.62;padding-top:44px">Lebensraum im Meer</p>
+    <p class="rise body" style="--d:1.6s;padding-top:32px">Offenes Meer, Wanderfisch</p>
+    <p class="rise body" style="--d:1.6s;padding-top:32px">Netzgehege mit hoher Fischdichte</p>
+  </div>
+  <aside>Wildlachse sind Wanderfische. Sie verbringen den größten Teil ihres Lebens im Meer und steigen zur Fortpflanzung in die Flüsse auf, um dort abzulaichen. Die Jungfische, die Parr, bleiben ein bis zwei Jahre im Süßwasser und wandern mit der artspezifischen Größe als Smolt ins Meer. Auf der Farm übernimmt der Mensch jeden dieser Schritte: Eier werden gewonnen, Jungfische in Süßwasseranlagen aufgezogen und für die Mast ins Netzgehege im Meer gesetzt. Das Ergebnis ist ein Fisch, der schneller am Markt ist, aber unter ganz anderen Bedingungen lebt, vor allem mit hoher Fischdichte.</aside>
+</section>
+
+<!-- 12 ANTIBIOTIKA -->
+<section class="slide salmon" data-label="Ein Problem, das gelöst wurde">
+  <h2 class="rise" style="--d:.05s;position:absolute;left:120px;top:130px;width:900px;font-size:112px">Antibiotika: <span style="color:var(--paper)">die Wende</span></h2>
+  <p class="rise lead" style="--d:.6s;position:absolute;left:120px;top:520px;width:800px">Die wichtigste Ursache: <i>Impfungen</i> gegen Infektionskrankheiten – und das trotz massiv wachsender Lachsbestände.</p>
+  <p class="rise display" style="--d:1.3s;position:absolute;left:120px;top:820px;font-size:130px;line-height:1;color:var(--paper)">−98&nbsp;%</p>
+  <p class="rise body" style="--d:1.3s;position:absolute;left:560px;top:850px;width:400px"><i>und mehr</i></p>
+
+  <div style="position:absolute;left:1100px;top:140px;width:700px;height:860px">
+    <div style="position:absolute;left:0;bottom:90px;width:300px"><div class="vbar" style="--h:640px;--d:.5s;background:var(--ink);width:300px;position:absolute;bottom:0"></div></div>
+    <div style="position:absolute;left:400px;bottom:90px;width:300px"><div class="vbar" style="--h:13px;--d:1s;background:var(--paper);width:300px;position:absolute;bottom:0"></div></div>
+    <p class="display" style="position:absolute;left:0;bottom:760px;font-size:150px;line-height:1">50<span style="font-size:64px;margin-left:12px">Tonnen</span></p>
+    <p class="display" style="position:absolute;left:400px;bottom:130px;font-size:150px;line-height:1;color:var(--paper)">&lt;1<span style="font-size:64px;margin-left:12px">Tonne</span></p>
+    <p class="display" style="position:absolute;left:0;bottom:0;font-size:56px">1987</p>
+    <p class="display" style="position:absolute;left:400px;bottom:0;font-size:56px">1990er</p>
+  </div>
+  <aside>Ein Beispiel dafür, dass sich Probleme der Fischzucht lösen lassen. 1987 erreichte der Einsatz antibakterieller Arzneien in norwegischen Lachsfarmen mit etwa 50 Tonnen seinen Höhepunkt. Danach kam die Wende: In den 1990er-Jahren sank der Einsatz trotz massiv wachsender Lachsbestände auf unter 1 Tonne. Die wichtigste Ursache waren Impfungen gegen die Infektionskrankheiten. Das sind mehr als 98 Prozent weniger. Norwegische Lachsfarmer verweisen gern auf diese Zahl, doch andere Probleme bleiben.</aside>
+</section>
+
+<!-- 13 DREI PROBLEME -->
+<section class="slide paper" data-label="Die ungelösten Probleme">
+  <h2 class="rise" style="--d:.05s;position:absolute;left:120px;top:130px;width:1680px;font-size:112px">Aber: <span class="acc">drei Baustellen</span> bleiben</h2>
+
+  <div class="cols" style="position:absolute;left:120px;top:380px;width:1680px;grid-template-columns:repeat(3,1fr);gap:60px">
+    <div class="rise" style="--d:.5s;border-top:4px solid var(--ink);padding-top:26px">
+      <p class="mono dim">01 · Parasiten</p>
+      <p class="display acc" style="font-size:150px;line-height:1;margin:16px 0 10px">Laus</p>
+      <p class="display" style="font-size:54px;line-height:1.05">8–12 mm groß</p>
+      <p class="small" style="margin-top:20px;font-size:38px;line-height:1.2">Sie fressen sich in die Haut der Fische, im schlimmsten Fall bis zu Löchern. Die hohe Fischdichte lässt sie sich bestens vermehren. Insektizide helfen immer weniger: Teilweise sind die Läuse resistent.</p>
+    </div>
+    <div class="rise" style="--d:1s;border-top:4px solid var(--ink);padding-top:26px">
+      <p class="mono dim">02 · Flucht</p>
+      <p class="display acc" style="font-size:150px;line-height:1;margin:16px 0 10px">Flucht</p>
+      <p class="display" style="font-size:54px;line-height:1.05">Hunderttausende</p>
+      <p class="small" style="margin-top:20px;font-size:38px;line-height:1.2">Vor allem bei Stürmen reißen Netzgehege, in Extremfällen entkommen Millionen Lachse. Sie mischen sich unter Wildlachse und gefährden deren Genpool.</p>
+    </div>
+    <div class="rise" style="--d:1.5s;border-top:4px solid var(--ink);padding-top:26px">
+      <p class="mono dim">03 · Futter</p>
+      <p class="display acc" style="font-size:150px;line-height:1;margin:16px 0 10px">Futter</p>
+      <p class="display" style="font-size:54px;line-height:1.05">Raubfisch frisst Fisch</p>
+      <p class="small" style="margin-top:20px;font-size:38px;line-height:1.2">Für die Mast wird noch immer sehr viel Fisch verfüttert (Fischmehl, Fischöl). Neu: mehr Pflanzenöl, Soja, Getreide und Hülsenfrüchte – der Lachs als „Veganer“.</p>
+    </div>
+  </div>
+  <aside>Das Antibiotika-Problem ist gelöst, aber andere sind es nicht. Erstens die Lachslaus: Die 8 bis 12 Millimeter großen Parasiten heften sich an die Haut und fressen im schlimmsten Fall richtige Löcher. In den dichten Netzgehegen vermehren sie sich bestens. Man bekämpft sie mit Insektiziden, aber sie sind teilweise resistent geworden. Zweitens die Fluchten: Bei Stürmen entkommen Hunderttausende, in Extremfällen Millionen Lachse und mischen sich unter die Wildpopulation. Drittens das Futter: Der Lachs ist ein Raubfisch, für die Mast wird noch immer sehr viel Fisch verfüttert. Man versucht, ihn auf pflanzliches Futter umzustellen.</aside>
+</section>
+
+<!-- 14 PRO KONTRA -->
+<section class="slide paper" data-label="Blaue Revolution?">
+  <h2 class="rise" style="--d:.05s;position:absolute;left:120px;top:130px;width:1680px;font-size:112px">Blaue Revolution – <span class="acc">Pro und Kontra</span></h2>
+
+  <div class="cols" style="position:absolute;left:120px;top:340px;width:1680px;grid-template-columns:1fr 1fr;gap:90px">
+    <div>
+      <p class="display" style="font-size:68px;padding-bottom:14px;border-bottom:4px solid var(--ink)">Dafür</p>
+      <div class="rise" style="--d:.4s;padding:20px 0;border-bottom:2px solid rgba(18,17,15,.25)"><p class="body" style="font-size:38px">Der Wildfang stagniert, <i>jedes</i> Wachstum kommt aus der Zucht</p></div>
+      <div class="rise" style="--d:.7s;padding:20px 0;border-bottom:2px solid rgba(18,17,15,.25)"><p class="body" style="font-size:38px">Fast die Hälfte des Fischs stammt schon aus Aquakultur (46&nbsp;%)</p></div>
+      <div class="rise" style="--d:1s;padding:20px 0;border-bottom:2px solid rgba(18,17,15,.25)"><p class="body" style="font-size:38px">Antibiotika von 50 t auf unter 1 t: Technik kann Probleme lösen</p></div>
+      <div class="rise" style="--d:1.3s;padding:20px 0;border-bottom:2px solid rgba(18,17,15,.25)"><p class="body" style="font-size:38px">Lachs: vom Luxusfisch zum Alltagsprodukt</p></div>
+    </div>
+    <div>
+      <p class="display acc" style="font-size:68px;padding-bottom:14px;border-bottom:4px solid var(--salmon-d)">Dagegen</p>
+      <div class="rise" style="--d:.55s;padding:20px 0;border-bottom:2px solid rgba(18,17,15,.25)"><p class="body" style="font-size:38px">Läuse vermehren sich in dichten Netzgehegen, Insektizide verlieren Wirkung</p></div>
+      <div class="rise" style="--d:.85s;padding:20px 0;border-bottom:2px solid rgba(18,17,15,.25)"><p class="body" style="font-size:38px">Entkommene Zuchtlachse gefährden den Genpool der Wildlachse</p></div>
+      <div class="rise" style="--d:1.15s;padding:20px 0;border-bottom:2px solid rgba(18,17,15,.25)"><p class="body" style="font-size:38px">Raubfisch-Mast verbraucht weiterhin viel Fisch (Fischmehl, Fischöl)</p></div>
+      <div class="rise" style="--d:1.45s;padding:20px 0;border-bottom:2px solid rgba(18,17,15,.25)"><p class="body" style="font-size:38px">Aus einem Problem im Meer werden Probleme an Land (Soja, Getreide)</p></div>
+    </div>
+  </div>
+  <aside>Hier sammeln wir die Argumente für die Diskussion. Dafür spricht: Der Wildfang stagniert, das ganze Wachstum der Fischerzeugung kommt aus der Zucht, schon 46 Prozent des Fischs stammen aus Aquakultur, und das Antibiotika-Beispiel zeigt, dass Probleme technisch lösbar sind. Dagegen spricht: Läuse, die sich in den dichten Netzgehegen vermehren und gegen Insektizide resistent werden, Fluchten, die den Genpool gefährden, und ein Futtermittelbedarf, der weiter am Fischfang hängt. Der letzte Punkt – Probleme an Land durch Soja und Getreide – ist unser Gedanke zur Diskussion, er steht nicht im Buchtext.</aside>
+</section>
+
+<!-- 15 FAZIT -->
+<section class="slide sea" data-label="Fazit">
+  <p class="rise display" style="--d:.1s;position:absolute;left:120px;top:140px;width:1680px;font-size:126px;line-height:1.04">Es <span class="acc">geht</span> – das zeigt die Antibiotika-Wende. Läuse, Fluchten und Futter sind die <span class="acc">offenen Prüfungen.</span></p>
+  <hr style="position:absolute;left:120px;right:120px;top:750px;opacity:.5">
+  <p class="rise lead" style="--d:.9s;position:absolute;left:120px;top:790px;width:1000px"><i>Aquakultur ist längst die halbe Antwort auf den Hunger nach Fisch.</i></p>
+  <p class="rise display acc" style="--d:1.4s;position:absolute;left:1200px;top:780px;width:600px;font-size:80px;line-height:1.04">Nachhaltig – oder nur effizienter?</p>
+  <aside>Zum Schluss: Aquakultur liefert schon fast die Hälfte unseres Fischs, und Norwegen zeigt, wie weit Technik und Intensivierung im Meer gehen können. Beim Antibiotika-Einsatz hat die Branche bewiesen, dass sie ein Problem lösen kann. Ob Fischzucht nachhaltig wird, entscheidet sich an den offenen Fragen: Läuse, Fluchten und Futter. Zum Abschluss die Frage ans Publikum: Ist das schon nachhaltig – oder nur effizienter?</aside>
+</section>
+
+</div>
+
+<div id="notes"></div>
+<div id="hint">← → blättern · N Notizen · F Vollbild</div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'),slides=[].slice.call(document.querySelectorAll('.slide')),notes=document.getElementById('notes'),cur=0;
+  function fit(){var s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='scale('+s+') translate(-50%,-50%)';stage.style.transformOrigin='0 0';stage.style.left='50%';stage.style.top='50%';}
+  // Rahmen (Label, Zähler, Fortschritt) automatisch
+  slides.forEach(function(s,i){
+    var c=document.createElement('div');c.className='chrome';
+    c.innerHTML='<span>'+s.dataset.label+'</span><span>'+String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0')+'</span>';
+    s.appendChild(c);
+    var p=document.createElement('div');p.className='progress';p.style.width=((i+1)/slides.length*100)+'%';s.appendChild(p);
+  });
+  function show(n,silent){
+    n=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,i){s.classList.toggle('active',i===n)});
+    cur=n;
+    var a=slides[n].querySelector('aside');
+    notes.innerHTML='<b>Notizen · Folie '+(n+1)+'</b>'+(a?a.innerHTML:'');
+    if(!silent){try{history.replaceState(null,'','#'+(n+1))}catch(e){}}
+  }
+  addEventListener('keydown',function(e){
+    if(['ArrowRight','PageDown',' ','Enter'].indexOf(e.key)>-1){e.preventDefault();show(cur+1)}
+    else if(['ArrowLeft','PageUp','Backspace'].indexOf(e.key)>-1){e.preventDefault();show(cur-1)}
+    else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);
+    else if(e.key==='n'||e.key==='N')notes.classList.toggle('on');
+    else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}
+  });
+  addEventListener('click',function(e){if(e.target.closest('#notes'))return;show(e.clientX<innerWidth*.25?cur-1:cur+1)});
+  var tx=null;addEventListener('touchstart',function(e){tx=e.touches[0].clientX});
+  addEventListener('touchend',function(e){if(tx===null)return;var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)show(d<0?cur+1:cur-1);tx=null});
+  addEventListener('resize',fit);fit();
+  var h=parseInt(location.hash.slice(1),10);show(isNaN(h)?0:h-1,true);
+  document.body.classList.add('show-hint');setTimeout(function(){document.body.classList.remove('show-hint')},4000);
+})();
+</script>
+</body>
+</html>
