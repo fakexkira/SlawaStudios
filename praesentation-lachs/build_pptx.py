@@ -11,20 +11,20 @@ from pptx.util import Emu, Pt
 root = pathlib.Path(__file__).parent
 PX = 6350  # 1 px = 1/144 inch = 6350 EMU  (1920 px = 13,333 in)
 
-C = dict(paper="EEE8DC", ink="12110F", salmon="F0654A", salmon_d="D9492F", sea="0E2B36",
-         teal="2F7F94", sand="CFC5AE", mute="7A7367", mist="8FB8C2")
+C = dict(paper="F3EFE6", ink="1E1D1A", salmon="D98A74", salmon_d="B0583F", sea="23424D",
+         teal="4C8A9B", sand="D8CFBB", mute="7D776B", mist="9DBFC8", peach="F1DED3")
 # Schriften: Impact/Georgia/Courier New sind auf Windows und macOS vorhanden
-FONT = dict(D="Impact", S="Georgia", M="Courier New")
-DS = 0.82  # Impact ist ca. 20 % breiter als Anton -> Anzeigeschrift verkleinern
+FONT = dict(D="Georgia", S="Georgia", M="Courier New")
+DS = 0.66  # ruhige Serifenschrift statt Plakat-Versalien -> Anzeigegrößen verkleinern
 import os
 if os.environ.get("TEST_ANTON"):  # nur für die Layout-Prüfung: Anton mit Impact-äquivalenter Breite
-    FONT["D"], DS = "Anton", 1.0
+    pass
 CUR = {"fg": "ink"}
 
 THEME = {  # Hintergrund, Text, Akzent
     "paper": ("paper", "ink", "salmon_d"),
     "sea": ("sea", "paper", "salmon"),
-    "salmon": ("salmon", "ink", "paper"),
+    "salmon": ("peach", "ink", "salmon_d"),
 }
 
 prs = Presentation()
@@ -66,7 +66,7 @@ def text(s, x, y, w, h, paras, size, font="S", color=None, italic=False, align="
 
 
 def D(s, x, y, w, h, paras, size, color=None, **kw):  # Anzeigeschrift, Großbuchstaben
-    return text(s, x, y, w, h, paras, size, font="D", color=color, upper=True, ls=kw.pop("ls", 0.95), **kw)
+    return text(s, x, y, w, h, paras, size, font="D", color=color, upper=False, ls=kw.pop("ls", 1.0), **kw)
 
 
 def M(s, x, y, w, txt, color, size=22, align="l"):
@@ -88,7 +88,7 @@ def new(i):
     CUR["fg"] = fg
     M(s, 120, 52, 1000, label, fg)
     M(s, 1500, 52, 300, f"{i + 1:02d} / {N:02d}", fg, align="r")
-    rect(s, 0, 1072, 1920 * (i + 1) / N, 8, fg)
+    rect(s, 0, 1076, 1920 * (i + 1) / N, 4, "mute")
     s.notes_slide.notes_text_frame.text = NOTES[i]
     return s, fg, acc
 
@@ -174,12 +174,12 @@ text(s, 1000, 900, 800, 100, [[("Norwegen: ", {"color": acc}), ("fast nur Fisch 
 s, fg, acc = new(5)
 for i, (big, txt, col) in enumerate([("Platz 7", "unter den Aquakultur-Ländern der Welt: 1,31 Mio. Tonnen (2017)", "ink"),
                                      ("1,6 %", "der Weltproduktion – ein kleiner Anteil …", "ink"),
-                                     ("99,8 %", "… der fast komplett im Meer entsteht: Zuchtfisch in Küstengewässern.", "paper")]):
+                                     ("99,8 %", "… der fast komplett im Meer entsteht: Zuchtfisch in Küstengewässern.", "salmon_d")]):
     y = 130 + i * 240
-    hr(s, 120, y, 1680, "ink", 3)
+    hr(s, 120, y, 1680, "mute", 1)
     D(s, 120, y + 12, 900, 220, big, 196, col)
     text(s, 1020, y + 50, 780, 170, txt, 44)
-hr(s, 120, 850, 1680, "ink", 3)
+hr(s, 120, 850, 1680, "mute", 1)
 text(s, 120, 900, 1680, 80, "Norwegen ist keine Großmacht der Menge, sondern der Meeres-Intensivierung – vor allem beim Lachs.", 40, italic=True)
 
 # ---------- 07 Boom
@@ -225,8 +225,8 @@ for i, (n, v) in enumerate([("Nordland", 188), ("Trøndelag", 178), ("Hordaland"
 # ---------- 10 Lebenslauf
 s, fg, acc = new(9)
 D(s, 120, 130, 1680, 140, [[("Drei Stationen, ", {}), ("ein Fischleben", {"color": acc})]], 112, fg)
-rect(s, 120, 370, 1300, 6, "teal"); M(s, 120, 392, 1200, "Süßwasser · 7 bis 9 Monate", fg)
-rect(s, 1440, 370, 360, 6, "ink"); M(s, 1440, 392, 360, "Meerwasser", fg)
+rect(s, 120, 370, 1300, 3, "teal"); M(s, 120, 392, 1200, "Süßwasser · 7 bis 9 Monate", fg)
+rect(s, 1440, 370, 360, 3, "ink"); M(s, 1440, 392, 360, "Meerwasser", fg)
 steps = [("1 Brutanstalt", "Ei", "40–100 Tage", "Geschlechtsprodukte der Elterntiere werden abgestreift, die Eier reifen (je nach Temperatur)."),
          ("2 Besatzfischfarm", "Larve", "ca. 44 Tage", "Aufzucht der Larven."),
          ("2 Besatzfischfarm", "Parr", "15 Wochen", "Junglachs, an Süßwasser angepasst."),
@@ -245,8 +245,8 @@ text(s, 120, 975, 1680, 60, "Der Zyklus schließt sich: Aus Speisefischen werden
 # ---------- 11 Wild vs Zucht
 s, fg, acc = new(10)
 D(s, 120, 130, 1680, 140, [[("Was die Farm ", {}), ("der Natur abnimmt", {"color": acc})]], 112, fg)
-D(s, 500, 370, 620, 80, "Wildlachs", 64, fg); rect(s, 500, 462, 620, 3, "mist")
-D(s, 1175, 370, 625, 80, "Zuchtlachs", 64, acc); rect(s, 1175, 462, 625, 3, "salmon")
+D(s, 500, 370, 620, 80, "Wildlachs", 64, fg); rect(s, 500, 462, 620, 1, "mist")
+D(s, 1175, 370, 625, 80, "Zuchtlachs", 64, acc); rect(s, 1175, 462, 625, 1, "salmon")
 tab = [("Süßwasserphase", "Als Parr 1–2 Jahre im Fluss", "Rund 7–9 Monate in Brutanstalt und Besatzfischfarm"),
        ("Wechsel ins Meer", "Der Smolt wandert selbst ab, sobald er die artspezifische Größe hat", "Der Smolt wird auf Salzwasser umgestellt und ins Netzgehege gesetzt"),
        ("Fortpflanzung", "Wanderung flussaufwärts zum Ablaichen", "Geschlechtsprodukte der Elterntiere werden abgestreift"),
@@ -258,13 +258,13 @@ for i, (k, a, b) in enumerate(tab):
 
 # ---------- 12 Antibiotika
 s, fg, acc = new(11)
-D(s, 120, 130, 900, 330, [[("Antibiotika: ", {}), ("die Wende", {"color": "paper"})]], 112, fg, ls=0.92)
+D(s, 120, 130, 900, 330, [[("Antibiotika: ", {}), ("die Wende", {"color": "salmon_d"})]], 112, fg, ls=0.92)
 text(s, 120, 520, 820, 260, [[("Die wichtigste Ursache: ", {}), ("Impfungen", {"italic": True}), (" gegen Infektionskrankheiten – und das trotz massiv wachsender Lachsbestände.", {})]], 44)
-D(s, 120, 850, 420, 150, "−98 %", 130, "paper")
+D(s, 120, 850, 420, 150, "−98 %", 130, "salmon_d")
 text(s, 580, 890, 360, 60, "und mehr", 40, italic=True)
-rect(s, 1100, 270, 300, 640, "ink"); rect(s, 1500, 897, 300, 13, "paper")
+rect(s, 1100, 270, 300, 640, "ink"); rect(s, 1500, 897, 300, 13, "mute")
 D(s, 1100, 130, 600, 140, [[("50", {}), (" Tonnen", {"size": 64})]], 150, "ink")
-D(s, 1500, 740, 400, 150, [[("<1", {}), (" Tonne", {"size": 64})]], 150, "paper")
+D(s, 1500, 740, 400, 150, [[("<1", {}), (" Tonne", {"size": 64})]], 150, "salmon_d")
 D(s, 1100, 930, 300, 70, "1987", 56, "ink"); D(s, 1500, 930, 300, 70, "1990er", 56, "ink")
 
 # ---------- 13 Drei Baustellen
@@ -275,7 +275,7 @@ cols = [("01 · Parasiten", "Laus", "8–12 mm groß", "Sie fressen sich in die 
         ("03 · Futter", "Futter", "Raubfisch frisst Fisch", "Für die Mast wird noch immer sehr viel Fisch verfüttert (Fischmehl, Fischöl). Neu: mehr Pflanzenöl, Soja, Getreide und Hülsenfrüchte – der Lachs als „Veganer“.")]
 for i, (lab, big, sub, body) in enumerate(cols):
     x = 120 + i * 580
-    rect(s, x, 380, 520, 4, "ink")
+    rect(s, x, 380, 520, 1, "mute")
     M(s, x, 405, 500, lab, "mute")
     D(s, x, 445, 520, 150, big, 150, acc)
     D(s, x, 620, 520, 70, sub, 50 if i == 2 else 54, fg)
@@ -289,7 +289,7 @@ pro = ["Der Wildfang stagniert, jedes Wachstum kommt aus der Zucht", "Fast die H
 con = ["Läuse vermehren sich in dichten Netzgehegen, Insektizide verlieren Wirkung", "Entkommene Zuchtlachse gefährden den Genpool der Wildlachse",
        "Raubfisch-Mast verbraucht weiterhin viel Fisch (Fischmehl, Fischöl)", "Aus einem Problem im Meer werden Probleme an Land (Soja, Getreide)"]
 for x, head, items, col, lk in [(120, "Dafür", pro, fg, "ink"), (1005, "Dagegen", con, acc, "salmon_d")]:
-    D(s, x, 340, 795, 90, head, 68, col); rect(s, x, 435, 795, 4, lk)
+    D(s, x, 340, 795, 90, head, 68, col); rect(s, x, 435, 795, 1, lk)
     for i, t in enumerate(items):
         y = 455 + i * 125
         text(s, x, y + 14, 795, 100, t, 33)
