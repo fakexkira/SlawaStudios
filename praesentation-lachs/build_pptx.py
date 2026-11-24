@@ -27,6 +27,13 @@ THEME = {  # Hintergrund, Text, Akzent
     "salmon": ("peach", "ink", "salmon_d"),
 }
 
+CHEAP = bool(os.environ.get("CHEAP"))
+if CHEAP:  # absichtlich "billige" Variante: Standard-Schul-PowerPoint-Optik
+    C = dict(paper="FFFFCC", ink="000080", salmon="FF6600", salmon_d="CC0000", sea="003399",
+             teal="009900", sand="FFCC00", mute="666666", mist="66CCFF", peach="99CCFF")
+    FONT = dict(D="Comic Sans MS", S="Times New Roman", M="Arial")
+    DS = 0.72
+
 prs = Presentation()
 prs.slide_width, prs.slide_height = Emu(1920 * PX), Emu(1080 * PX)
 BLANK = prs.slide_layouts[6]
@@ -86,6 +93,11 @@ def new(i):
     s = prs.slides.add_slide(BLANK)
     s.background.fill.solid(); s.background.fill.fore_color.rgb = rgb(bgk)
     CUR["fg"] = fg
+    if CHEAP:
+        fr = s.shapes.add_shape(MSO_SHAPE.RECTANGLE, Emu(24 * PX), Emu(24 * PX), Emu(1872 * PX), Emu(1032 * PX))
+        fr.fill.background(); fr.line.color.rgb = rgb("FFCC00" if bgk == "sea" else "CC0000"); fr.line.width = Pt(6)
+        st = s.shapes.add_shape(MSO_SHAPE.STAR_5_POINT, Emu(1812 * PX), Emu(950 * PX), Emu(90 * PX), Emu(90 * PX))
+        st.fill.solid(); st.fill.fore_color.rgb = rgb("FFCC00"); st.line.color.rgb = rgb("CC0000"); st.line.width = Pt(2)
     M(s, 120, 52, 1000, label, fg)
     M(s, 1500, 52, 300, f"{i + 1:02d} / {N:02d}", fg, align="r")
     rect(s, 0, 1076, 1920 * (i + 1) / N, 4, "mute")
@@ -253,7 +265,7 @@ tab = [("Süßwasserphase", "Als Parr 1–2 Jahre im Fluss", "Rund 7–9 Monate 
        ("Lebensraum im Meer", "Offenes Meer, Wanderfisch", "Netzgehege mit hoher Fischdichte")]
 for i, (k, a, b) in enumerate(tab):
     y = 490 + i * 140
-    M(s, 120, y + 12, 360, k, "mute", size=20)
+    M(s, 120, y + 12, 360, k, "mist", size=20)
     text(s, 500, y, 620, 130, a, 34); text(s, 1175, y, 625, 130, b, 34)
 
 # ---------- 12 Antibiotika
@@ -302,6 +314,6 @@ hr(s, 120, 750, 1680, "mute")
 text(s, 120, 790, 1000, 140, "Aquakultur ist längst die halbe Antwort auf den Hunger nach Fisch.", 50, color="paper", italic=True)
 D(s, 1200, 780, 600, 200, "Nachhaltig – oder nur effizienter?", 80, acc)
 
-out = root / "Lachs-aus-dem-Kaefig.pptx"
+out = root / ("Lachs-billig.pptx" if CHEAP else "Lachs-aus-dem-Kaefig.pptx")
 prs.save(out)
 print("PPTX:", out, out.stat().st_size // 1024, "KB,", len(prs.slides), "Folien")
