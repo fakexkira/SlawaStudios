@@ -19,4 +19,5 @@ ohne Bilder und ohne Quellenzeilen auf den Folien. Diagramme sind aus den Werten
 
 - `Lachs-aus-dem-Kaefig.html` – eigenständige Datei, läuft offline (← → blättern, `N` Sprechernotizen, `F` Vollbild)
 - `Lachs-aus-dem-Kaefig.pdf` – PDF-Export
+- `Lachs-aus-dem-Kaefig.pptx` – PowerPoint-Fassung (bearbeitbare Formen, Sprechernotizen; Schriften Impact, Georgia, Courier New; `python3 build_pptx.py`)
 - `src/deck.html`, `src/fonts/`, `build.py` – Quelle und Build (`python3 build.py`, braucht Node + Playwright für das PDF)
