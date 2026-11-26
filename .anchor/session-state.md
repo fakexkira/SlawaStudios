@@ -1,20 +1,21 @@
 # Session state (auto-saved — last known reality)
 
-_Updated: 2026-11-26 08:59:30_  ·  branch: `claude/gifted-cray-rxux6b`
+_Updated: 2026-11-26 09:37:38_  ·  branch: `claude/gifted-cray-rxux6b`
 
 ## Uncommitted changes
 ```
-?? .anchor/
+ M .anchor/session-state.md
 ```
 
 Diff stat:
 ```
-
+ .anchor/session-state.md | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
 ```
 
 ## Recent commits
 ```
-(no history)
+d21f6d2 Add auto-saved session state
 ```
 
 ## Resume
